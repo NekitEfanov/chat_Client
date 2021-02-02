@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->chat->setAlignment(Qt::AlignLeft);
     bool bOk;
     QInputDialog Dialog_Name;
     while(true)
@@ -33,9 +34,11 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_setTextChatButton_clicked()
 {
-    data = ui->setTextChatLine->text() + " :: " + nameclient;
+    data = nameclient + " :: " + ui->setTextChatLine->text() + "\n";
     socket->write(data.toUtf8());
+    ui->chat->setText(ui->chat->text() + data);
     ui->setTextChatLine->clear();
+    
 }
 
 void MainWindow::sockDisc()
@@ -56,7 +59,7 @@ void MainWindow::sockReady()
     {
        socket->waitForReadyRead(500);
        DataSocket = socket->readAll();
-       ui->chat->setText(DataSocket);
+       ui->chat->setText(ui->chat->text() + DataSocket);
        qDebug() << " -- " << DataSocket;
     }
 }
