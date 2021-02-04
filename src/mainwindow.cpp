@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->chat->setAlignment(Qt::AlignLeft);
+    ui->chat->setReadOnly(true);
     bool bOk;
     QInputDialog Dialog_Name;
     while(true)
@@ -23,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(socket, SIGNAL(connected()), this, SLOT(connectSuccess()));
     connect(socket, SIGNAL(readyRead()),this, SLOT(sockReady()));
     connect(socket, SIGNAL(disconnected()), this, SLOT(sockDisc()));
-    socket->connectToHost("95.73.234.62", 60111);
+    socket->connectToHost("95.72.205.67", 60111);
 }
 
 MainWindow::~MainWindow()
@@ -34,9 +35,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_setTextChatButton_clicked()
 {
-    data = nameclient + " :: " + ui->setTextChatLine->text() + "\n";
+    data = nameclient + " :: " + ui->setTextChatLine->text();
     socket->write(data.toUtf8());
-    ui->chat->setText(ui->chat->text() + data);
+    ui->chat->append(data);
     ui->setTextChatLine->clear();
     
 }
@@ -59,7 +60,7 @@ void MainWindow::sockReady()
     {
        socket->waitForReadyRead(500);
        DataSocket = socket->readAll();
-       ui->chat->setText(ui->chat->text() + DataSocket);
-       qDebug() << " -- " << DataSocket;
+       ui->chat->append(DataSocket);
+       
     }
 }
