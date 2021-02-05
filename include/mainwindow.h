@@ -1,6 +1,5 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
 #include <QMainWindow>
 #include <QTcpSocket>
 #include <QMessageBox>
@@ -12,6 +11,7 @@
 #include <QFileInfo>
 #include <QFile>
 #include <QString>
+#include <QKeyEvent>
 #include "ui_mainwindow.h"
 
 QT_BEGIN_NAMESPACE
@@ -29,6 +29,8 @@ public:
     QByteArray DataSocket;
     QString data;
     QString nameclient;
+    void WriteMessage();
+    bool eventFilter(QObject *obj, QEvent *event);
 public slots:
     void connectSuccess();
     void sockReady();
@@ -41,4 +43,5 @@ private slots:
 private:
     Ui::MainWindow *ui;
 };
+
 #endif // MAINWINDOW_H

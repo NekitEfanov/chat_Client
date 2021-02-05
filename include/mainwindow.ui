@@ -30,8 +30,8 @@
    <widget class="QLabel" name="connected_status">
     <property name="geometry">
      <rect>
-      <x>540</x>
-      <y>0</y>
+      <x>20</x>
+      <y>550</y>
       <width>261</width>
       <height>41</height>
      </rect>

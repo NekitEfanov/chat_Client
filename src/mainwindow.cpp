@@ -3,12 +3,12 @@
 
 using namespace std;
 
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->setTextChatLine->installEventFilter(this);
     ui->chat->setAlignment(Qt::AlignLeft);
     ui->chat->setReadOnly(true);
     bool bOk;
@@ -31,15 +31,20 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-
-
-void MainWindow::on_setTextChatButton_clicked()
+void MainWindow::WriteMessage()
 {
+    if (!(ui->setTextChatLine->displayText().isEmpty()))
+    {
     data = nameclient + " :: " + ui->setTextChatLine->text();
     socket->write(data.toUtf8());
     ui->chat->append(data);
     ui->setTextChatLine->clear();
-    
+    }
+}
+
+void MainWindow::on_setTextChatButton_clicked()
+{
+   WriteMessage();
 }
 
 void MainWindow::sockDisc()
@@ -63,4 +68,16 @@ void MainWindow::sockReady()
        ui->chat->append(DataSocket);
        
     }
+}
+bool MainWindow::eventFilter(QObject *obj, QEvent *event)
+{
+if(event->type() == QEvent::KeyRelease)
+{
+  QKeyEvent *key = static_cast<QKeyEvent*>(event);
+  if(key->key() ==  Qt::Key_Return)
+    {
+         WriteMessage();
+    }
+}
+return QWidget::eventFilter(obj, event);
 }
