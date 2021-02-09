@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1200</width>
+    <height>799</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,9 +17,9 @@
    <widget class="QPushButton" name="setTextChatButton">
     <property name="geometry">
      <rect>
-      <x>330</x>
-      <y>550</y>
-      <width>111</width>
+      <x>1024</x>
+      <y>739</y>
+      <width>121</width>
       <height>31</height>
      </rect>
     </property>
@@ -30,8 +30,8 @@
    <widget class="QLabel" name="connected_status">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>550</y>
+      <x>0</x>
+      <y>-5</y>
       <width>261</width>
       <height>41</height>
      </rect>
@@ -48,30 +48,40 @@
      <string/>
     </property>
    </widget>
-   <widget class="QLineEdit" name="setTextChatLine">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>430</y>
-      <width>581</width>
-      <height>111</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QTextEdit" name="chat">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>801</width>
-      <height>411</height>
+      <x>550</x>
+      <y>25</y>
+      <width>621</width>
+      <height>689</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="setTextChatLine">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>730</y>
+      <width>461</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
     </property>
    </widget>
    <zorder>setTextChatButton</zorder>
-   <zorder>setTextChatLine</zorder>
    <zorder>chat</zorder>
    <zorder>connected_status</zorder>
+   <zorder>setTextChatLine</zorder>
   </widget>
  </widget>
  <resources/>

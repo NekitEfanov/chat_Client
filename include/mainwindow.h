@@ -31,6 +31,10 @@ public:
     QString nameclient;
     void WriteMessage();
     bool eventFilter(QObject *obj, QEvent *event);
+    QString Version_this = "1001";
+    QByteArray Key = "";
+    QString Version_server = "";
+    QString ip_server = "";
 public slots:
     void connectSuccess();
     void sockReady();
