@@ -91,22 +91,32 @@ void MainWindow::connectSuccess()
 {
     socket->waitForReadyRead(500);
     socket->write(Key);
-    socket->waitForReadyRead(500);
-    DataSocket = socket->readAll();
-    for (size_t i = 0; i < 4; i++)
+    if (!(socket->waitForReadyRead(5000)))
     {
-        Version_server = Version_server + DataSocket.data()[i];
-    }
-    if (Version_server.toInt() == Version_this.toInt())
-    {
-        DataSocket.remove(0, 4);
-        ui->chat->append(DataSocket);
-        ui->connected_status->setText("Status - connected");
-        connect(socket, SIGNAL(readyRead()), this, SLOT(sockReady()));
+        ui->connected_status->setText("Status - disconnected");
+        socket->deleteLater();
     }
     else
     {
-        ui->connected_status->setText("error version");
+        DataSocket = socket->readAll();
+        for (size_t i = 0; i < 5; i++)
+        {
+            Version_server = Version_server + DataSocket.data()[i];
+        }
+        if (Version_server.toInt() == Version_this.toInt())
+        {
+            DataSocket.remove(0, 5);
+            ui->chat->append(DataSocket);
+            ui->connected_status->setText("Status - connected");
+            connect(socket, SIGNAL(readyRead()), this, SLOT(sockReady()));
+        }
+        else
+        {
+            QString program = "Qt5Update.exe";
+            QProcess* myProcess = new QProcess(this);
+            myProcess->start(program);
+            exit(0);
+        }
     }
 }
 
@@ -117,7 +127,6 @@ void MainWindow::sockReady()
        socket->waitForReadyRead(500);
        DataSocket = socket->readAll();
        ui->chat->append(DataSocket);
-
     }
 }
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)

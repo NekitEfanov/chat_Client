@@ -12,6 +12,7 @@
 #include <QFile>
 #include <QString>
 #include <QKeyEvent>
+#include <QProcess>
 #include "ui_mainwindow.h"
 
 QT_BEGIN_NAMESPACE
