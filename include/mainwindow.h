@@ -32,7 +32,7 @@ public:
     QString nameclient;
     void WriteMessage();
     bool eventFilter(QObject *obj, QEvent *event);
-    QString Version_this = "1001";
+    QString Version_this = "0002";
     QByteArray Key = "";
     QString Version_server = "";
     QString ip_server = "";

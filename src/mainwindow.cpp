@@ -2,7 +2,7 @@
 
 using namespace std;
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
@@ -42,13 +42,24 @@ MainWindow::MainWindow(QWidget *parent)
 
     //////////////////////////////////////////
 
-    bool bOk;
     QInputDialog Dialog_Name;
-    while(true)
+    bool ok;
+    this->setStyleSheet("QInputDialog {background-color: white;}");
+
+    while (true)
     {
-        nameclient = Dialog_Name.getText(this,"Authorization","Name:",QLineEdit::Password,0,&bOk);             //authorization
-        if(!bOk){}///
-        if(nameclient.size()>2&&nameclient.size()<14){break;}
+        nameclient = Dialog_Name.getText(this,
+            tr("Authorization"),
+            tr("Your name:"),
+            QLineEdit::Normal,
+            "",
+            &ok);
+        if (!ok)
+            exit(0);
+        if (nameclient.size() > 2 && nameclient.size() < 13)
+            break;
+        else
+            QMessageBox::critical(this, "Error", "Number of characters 3-12");
     }
 
     //////////////////////////////////////////
@@ -99,19 +110,20 @@ void MainWindow::connectSuccess()
     else
     {
         DataSocket = socket->readAll();
-        for (size_t i = 0; i < 5; i++)
+        for (size_t i = 0; i < 4; i++)
         {
             Version_server = Version_server + DataSocket.data()[i];
         }
         if (Version_server.toInt() == Version_this.toInt())
         {
-            DataSocket.remove(0, 5);
+            DataSocket.remove(0, 4);
             ui->chat->append(DataSocket);
             ui->connected_status->setText("Status - connected");
             connect(socket, SIGNAL(readyRead()), this, SLOT(sockReady()));
         }
         else
         {
+            ui->connected_status->setText("start update");
             QString program = "Qt5Update.exe";
             QProcess* myProcess = new QProcess(this);
             myProcess->start(program);
@@ -124,7 +136,6 @@ void MainWindow::sockReady()
 {
     if(socket->waitForConnected(500))
     {
-       socket->waitForReadyRead(500);
        DataSocket = socket->readAll();
        ui->chat->append(DataSocket);
     }
