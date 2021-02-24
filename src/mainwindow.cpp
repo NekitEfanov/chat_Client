@@ -49,15 +49,18 @@ MainWindow::MainWindow(QWidget* parent)
     while (true)
     {
         nameclient = Dialog_Name.getText(this,
-            tr("Authorization"),
-            tr("Your name:"),
-            QLineEdit::Normal,
-            "",
-            &ok);
+                                         tr("Authorization"),
+                                         tr("Your name:"),
+                                         QLineEdit::Normal,
+                                         "",
+                                         &ok);
+
         if (!ok)
             exit(0);
+
         if (nameclient.size() > 2 && nameclient.size() < 13)
             break;
+
         else
             QMessageBox::critical(this, "Error", "Number of characters 3-12");
     }
@@ -102,16 +105,15 @@ void MainWindow::connectSuccess()
 {
     socket->waitForReadyRead(500);
     socket->write(Key);
-    if (!(socket->waitForReadyRead(5000)))
-    {
+
+    if (!(socket->waitForReadyRead(5000))) {
         ui->connected_status->setText("Status - disconnected");
         socket->deleteLater();
     }
     else
     {
         DataSocket = socket->readAll();
-        for (size_t i = 0; i < 4; i++)
-        {
+        for (size_t i = 0; i < 4; i++) {
             Version_server = Version_server + DataSocket.data()[i];
         }
         if (Version_server.toInt() == Version_this.toInt())
@@ -142,13 +144,14 @@ void MainWindow::sockReady()
 }
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 {
+
 if(event->type() == QEvent::KeyRelease)
 {
   QKeyEvent *key = static_cast<QKeyEvent*>(event);
+
   if(key->key() ==  Qt::Key_Return)
-    {
          WriteMessage();
-    }
 }
+
 return QWidget::eventFilter(obj, event);
 }
